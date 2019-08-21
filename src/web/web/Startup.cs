@@ -1,10 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Registration.Blueprint.Commands;
-using HotelDomain = Registration.Application.Bootstrap;
+using Newtonsoft.Json;
 
 namespace web
 {
@@ -49,14 +49,12 @@ namespace web
             }
 
             try {
-                context.Response.WriteAsync( File.ReadAllText($"pages/{page}"));
+                var pageContents = File.ReadAllText("pages/" + page);
+                context.Response.WriteAsync(pageContents);
             }
-            catch (Exception e) {
-                context.Response.SendFileAsync("pages/401.html");
+            catch (Exception ex) {
+                context.Response.SendFileAsync("401.html");
             }
-
-            var pageContents = File.ReadAllText(page);
-                
         }
     }
 }
