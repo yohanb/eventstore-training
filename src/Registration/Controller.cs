@@ -1,4 +1,6 @@
 using System;
+using Infrastructure;
+using Registration.Blueprint.Commands;
 
 
 namespace Registration
@@ -6,9 +8,12 @@ namespace Registration
     public class Controller
     {
         private ConsoleView _view;
-        public Controller(ConsoleView view)
+        private readonly IBus _mainBus;
+
+        public Controller(ConsoleView view, IBus mainBus)
         {
             _view = view;
+            _mainBus = mainBus;
         }
         public void StartCommandLoop()
         {
@@ -21,9 +26,14 @@ namespace Registration
                     Console.WriteLine("Disconnecting EventStore");
                     break;
                 }
+                if (cmd.Equals("list", StringComparison.OrdinalIgnoreCase))
+                {
+                    _view.ListRooms();
+                    break;
+                }
                 //3 token commands
                 var tokens = cmd.Split(' ');
-                if (tokens.Length != 3)
+                if (tokens.Length != 4)
                 {
                     _view.ErrorMsg = "Unknown command or Invalid number of parameters.";
                     continue;
@@ -31,7 +41,13 @@ namespace Registration
                 switch (tokens[0].ToUpperInvariant())
                 {
                     case "ADD":
-                        //TODO: Publish Add Command
+                        var addRoom = new AddRoom(
+                            Guid.NewGuid(),
+                            tokens[1],
+                            tokens[2],
+                            tokens[3]);
+
+                        _mainBus.Publish(addRoom);
                         break;
                     default:
                         _view.ErrorMsg = "Unknown Command";
