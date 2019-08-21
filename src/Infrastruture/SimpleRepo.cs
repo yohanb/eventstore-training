@@ -71,8 +71,10 @@ namespace Infrastructure
         public object Deserialize(ResolvedEvent @event)
         {
             try {
-                
                 var type = Assembly.GetEntryAssembly()?.GetType($"{_eventNamespace}.{@event.Event.EventType}");
+                if (type == null) {
+                    type = Type.GetType($"{_eventNamespace}.{@event.Event.EventType},Registration");
+                }
                 return JsonConvert.DeserializeObject(
                     Encoding.UTF8.GetString(@event.Event.Data),
                     type,
