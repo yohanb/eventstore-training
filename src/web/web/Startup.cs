@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -40,7 +41,7 @@ namespace web
                     HotelDomain.MainBus.Publish(new BookRoomCmd());
                     break;
                 default:
-                    context.Response.SendFileAsync("401.html");
+                    context.Response.SendFileAsync("pages/401.html");
                     break;
             }
         }
@@ -52,8 +53,14 @@ namespace web
                 return;
             }
 
+            try {
+                context.Response.WriteAsync( File.ReadAllText($"pages/{page}"));
+            }
+            catch (Exception e) {
+                context.Response.SendFileAsync("pages/401.html");
+            }
 
-            //var pageContents = File.ReadAllText(page);
+            
                 
         }
     }
