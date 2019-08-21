@@ -18,6 +18,7 @@ namespace Registration.Tests
         public void addRoom_command_will_save()
         {
             var eventNamespace = "Registration.Blueprint.Events";
+            var eventAssembly = "Registration";
             var settings = ConnectionSettings.Create()
                 .SetDefaultUserCredentials(new UserCredentials("admin", "changeit"))
                 .KeepReconnecting()
@@ -28,7 +29,7 @@ namespace Registration.Tests
             conn.ConnectAsync().Wait();
 
 
-            var repo = new SimpleRepo(conn, eventNamespace);
+            var repo = new SimpleRepo(conn, eventNamespace, eventAssembly);
             var roomSvc = new RoomSvc(repo);
             var roomId = Guid.NewGuid();
             roomSvc.Handle(new AddRoom(roomId, "12B", "2nd Floor", "King"));

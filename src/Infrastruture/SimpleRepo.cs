@@ -13,15 +13,17 @@ namespace Infrastructure
     {
         private readonly IEventStoreConnection _conn;
         private readonly string _eventNamespace;
+        private readonly string _eventAssembly;
 
         private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings {
             TypeNameHandling = TypeNameHandling.Auto
         };
 
-        public SimpleRepo(IEventStoreConnection conn, string eventNamespace)
+        public SimpleRepo(IEventStoreConnection conn, string eventNamespace, string eventAssembly)
         {
             _conn = conn;
             _eventNamespace = eventNamespace;
+            _eventAssembly = eventAssembly;
         }
 
         public void Save(IEventSource source)
@@ -71,10 +73,8 @@ namespace Infrastructure
         public object Deserialize(ResolvedEvent @event)
         {
             try {
-                var type = Assembly.GetEntryAssembly()?.GetType($"{_eventNamespace}.{@event.Event.EventType}");
-                if (type == null) {
-                    type = Type.GetType($"{_eventNamespace}.{@event.Event.EventType},Registration");
-                }
+                var type = Type.GetType($"{_eventNamespace}.{@event.Event.EventType},{_eventAssembly}");
+                
                 return JsonConvert.DeserializeObject(
                     Encoding.UTF8.GetString(@event.Event.Data),
                     type,

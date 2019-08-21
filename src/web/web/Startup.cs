@@ -34,7 +34,7 @@ namespace web
         private static void RouteToCommandHandler(string commandHandler, HttpContext context) {
             switch (commandHandler) {
                 case "book-room":
-                    Domain().HandleCommand(new BookRoomCommand());
+                    //.HandleCommand(new BookRoomCommand());
                     break;
                 default:
                     context.Response.SendFileAsync("401.html");

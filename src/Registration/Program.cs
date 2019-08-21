@@ -31,8 +31,9 @@ namespace Registration
             conn.ConnectAsync().Wait();
 
             var eventNamespace = "Registration.Blueprint.Events";
+            var eventAssembly = "Registration";
 
-            var repo = new SimpleRepo(conn, eventNamespace);
+            var repo = new SimpleRepo(conn, eventNamespace, eventAssembly);
 
             var roomRm = new RoomsReader(() => conn, repo.Deserialize);
 
