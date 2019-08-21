@@ -13,11 +13,7 @@ namespace Registration.Application
     public class RegistrationApp
     {
 
-        public RegistrationApp()
-        {
-            var eventNamespace = "Registration.Blueprint.Events";
-            Bootstrap.ConfigureApp(this, eventNamespace);
-        }
+      
 
         public IPublish CommandPublisher;
 

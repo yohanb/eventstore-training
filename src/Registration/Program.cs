@@ -17,9 +17,9 @@ namespace Registration
         {
 
             var app = new RegistrationApp();
-
-            //app.PreLoadUserData();
-
+            var eventNamespace = "Registration.Blueprint.Events";
+            Bootstrap.ConfigureApp(app,eventNamespace);
+           // Bootstrap.ConfigureController();
             app.Start();
             
             Console.WriteLine("press enter to exit");

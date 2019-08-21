@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Registration.Blueprint.ReadModels;
 
-namespace AccountBalance
+namespace Registration
 {
     public class ConsoleView
     {
