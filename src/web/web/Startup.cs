@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Registration.Blueprint.Commands;
-using HotelDomain =  Registration.Application.Bootstrap;
 
 namespace web
 {
@@ -16,7 +14,6 @@ namespace web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            HotelDomain.AsService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -30,7 +27,7 @@ namespace web
             app.Run(async (context) =>
             {
                 var page = context.Request.Path.ToUriComponent();
-                if (page.EndsWith(".html") || page.Equals("/")) RouteToPage(page, context);
+                if (page.EndsWith(".html")) RouteToPage(page, context);
                 else RouteToCommandHandler(page, context);
             });
         }
@@ -38,7 +35,7 @@ namespace web
         private static void RouteToCommandHandler(string commandHandler, HttpContext context) {
             switch (commandHandler) {
                 case "book-room":
-                    HotelDomain.MainBus.Publish(new BookRoomCmd());
+                    //.HandleCommand(new BookRoomCommand());
                     break;
                 default:
                     context.Response.SendFileAsync("pages/401.html");
@@ -47,10 +44,9 @@ namespace web
         }
 
         private static void RouteToPage(string page, HttpContext context) {
-            if (context.Request.Path == "/" || page == "/")
+            if (context.Request.Path == "/")
             {
-                context.Response.WriteAsync(File.ReadAllText("pages/index.html"));
-                return;
+                context.Response.WriteAsync(File.ReadAllText("pages/index.html"));        
             }
 
             try {
