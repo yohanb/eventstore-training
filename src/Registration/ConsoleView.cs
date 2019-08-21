@@ -7,10 +7,10 @@ namespace Registration
     public class ConsoleView
     {
         //hack reactive bindings 
-        private List<UserDisplayName> _registerUsers;
-        public List<UserDisplayName> RegisteredUsers
-        { get => _registerUsers;
-            set { _registerUsers = value; ListUsers(); } }
+        private List<RoomSummary> _rooms;
+        public List<RoomSummary> RoomSummaries
+        { get => _rooms;
+            set { _rooms = value; ListRooms(); } }
 
         private string _errorMsg;
         public string ErrorMsg { get => _errorMsg;
@@ -21,11 +21,9 @@ namespace Registration
 
             Console.Clear();
             Console.WriteLine("Available Commands:");
-            Console.WriteLine("\t Add [user name]");
+            Console.WriteLine("\t Add [number] [location] [type]");
             Console.WriteLine("\t list");
             Console.WriteLine("\t exit");
-            Console.WriteLine("\t clean");
-            Console.WriteLine("\t undo");
             Console.Write("Command:");
         }
 
@@ -38,16 +36,13 @@ namespace Registration
             Redraw();
         }
 
-        private void ListUsers()
+        public void ListRooms()
         {
             Redraw();
-            foreach (var user in _registerUsers)
+            foreach (var room in _rooms)
             {
-                Console.WriteLine(user.DisplayName);
+                Console.WriteLine(room.Summary);
             }
-            Console.WriteLine("Press enter to continue.");
-            Console.ReadLine();
-            Redraw();
         }
     }
 }

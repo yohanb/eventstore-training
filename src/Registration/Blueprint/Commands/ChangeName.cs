@@ -2,7 +2,7 @@
 using Infrastructure;
 
 namespace Registration.Blueprint.Commands{
-    public class ChangeName : IEvent, ICommand{
+    public class ChangeName : ICommand{
         public readonly Guid UserId;
         public readonly string FirstName;
         public readonly string LastName;
