@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace web
 {
@@ -25,11 +26,31 @@ namespace web
             app.Run(async (context) =>
             {
                 var page = context.Request.Path.ToUriComponent();
-                if (context.Request.Path == "/")
-                {
-                    await context.Response.WriteAsync(File.ReadAllText("pages/index.html"));        
-                }
+                if (page.EndsWith(".html")) RouteToPage(page, context);
+                else RouteToCommandHandler(page, context);
             });
+        }
+
+        private static void RouteToCommandHandler(string commandHandler, HttpContext context) {
+            switch (commandHandler) {
+                case "book-room":
+                    Domain().HandleCommand(new BookRoomCommand());
+                    break;
+                default:
+                    context.Response.SendFileAsync("401.html");
+                    break;
+            }
+        }
+
+        private static void RouteToPage(string page, HttpContext context) {
+            if (context.Request.Path == "/")
+            {
+                context.Response.WriteAsync(File.ReadAllText("pages/index.html"));        
+            }
+
+
+            var pageContents = File.ReadAllText(page);
+                
         }
     }
 }
