@@ -25,7 +25,7 @@ namespace web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) => {
+            app.Run( async (context) => {
                 var page = context.Request.Path.ToUriComponent();
                 if (page.EndsWith(".html") || page.Equals("/")) RouteToPage(page, context);
                 else RouteToCommandHandler(page, context);
