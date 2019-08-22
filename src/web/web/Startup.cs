@@ -21,20 +21,19 @@ namespace web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) =>
-            {
+            app.Run(async (context) => {
                 var page = context.Request.Path.ToUriComponent();
-                if (page.EndsWith(".html")|| page.Equals("/")) RouteToPage(page, context);
+                if (page.EndsWith(".html") || page.Equals("/")) RouteToPage(page, context);
                 else RouteToCommandHandler(page, context);
             });
         }
 
-        private static void RouteToCommandHandler(string commandHandler, HttpContext context) {
+        private static void RouteToCommandHandler(string commandHandler, HttpContext context)
+        {
             switch (commandHandler) {
                 case "/add-room":
 
@@ -49,15 +48,12 @@ namespace web
             }
         }
 
-        private static void RouteToPage(string page, HttpContext context) {
-            if (context.Request.Path == "/" || page.Equals("/"))
-            {
-                context.Response.WriteAsync(File.ReadAllText("pages/index.html"));
-                return;
-            }
+        private static void RouteToPage(string page, HttpContext context)
+        {
+            if (context.Request.Path == "/" || page.Equals("/")) { page = "index.html"; }
 
             try {
-                context.Response.WriteAsync( File.ReadAllText($"pages/{page}"));
+                context.Response.WriteAsync(File.ReadAllText($"pages/{page}"));
             }
             catch (Exception e) {
                 context.Response.SendFileAsync("pages/401.html");
