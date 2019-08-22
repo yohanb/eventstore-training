@@ -36,8 +36,12 @@ namespace web
 
         private static void RouteToCommandHandler(string commandHandler, HttpContext context) {
             switch (commandHandler) {
-                case "book-room":
-                   HotelDomain.MainBus.Publish(new BookRoomCmd());
+                case "/add-room":
+
+                    HotelDomain.MainBus.Publish(new AddRoom(Guid.NewGuid(),
+                       context.Request.Form["roomNumber"].ToString(),
+                       context.Request.Form["roomLocation"].ToString(),
+                       context.Request.Form["roomType"].ToString()));
                     break;
                 default:
                     context.Response.SendFileAsync("pages/401.html");
