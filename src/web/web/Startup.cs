@@ -37,23 +37,20 @@ namespace web
                 case "book-room":
                     break;
                 default:
-                    context.Response.SendFileAsync("401.html");
+                    context.Response.SendFileAsync("pages/401.html");
                     break;
             }
         }
 
         private static void RouteToPage(string page, HttpContext context) {
-            if (context.Request.Path == "/")
-            {
-                context.Response.WriteAsync(File.ReadAllText("pages/index.html"));        
-            }
+            if (context.Request.Path == "/") page = "index.html";
 
             try {
                 var pageContents = File.ReadAllText("pages/" + page);
                 context.Response.WriteAsync(pageContents);
             }
             catch (Exception ex) {
-                context.Response.SendFileAsync("401.html");
+                context.Response.SendFileAsync("pages/401.html");
             }
         }
     }
