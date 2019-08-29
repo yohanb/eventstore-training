@@ -27,7 +27,7 @@ namespace Registration
                 .KeepRetrying()
                 //.UseConsoleLogger()
                 .Build();
-            var conn = EventStoreConnection.Create(settings, IPEndPoint.Parse("127.0.0.1:1113"));
+            var conn = EventStoreConnection.Create(settings, new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1113));
             conn.ConnectAsync().Wait();
 
             var eventNamespace = "Registration.Blueprint.Events";
