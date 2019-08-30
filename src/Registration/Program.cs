@@ -44,6 +44,8 @@ namespace Registration
             
             var view = new ConsoleView();
             var controller = new Controller(view, mainBus);
+            
+            
 
             roomRm.Subscribe( model => view.RoomSummaries = model);
 

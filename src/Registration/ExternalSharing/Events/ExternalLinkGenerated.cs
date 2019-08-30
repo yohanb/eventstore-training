@@ -9,14 +9,17 @@ namespace Registration.ExternalSharing.Events
     {
         public readonly Guid ExternalLinkId;
         public readonly string DisplayName;
+        public readonly Guid FileId;
 
         public ExternalLinkGenerated(
             Guid externalLinkId,
-            string displayName
+            string displayName,
+            Guid fileId
         )
         {
             ExternalLinkId = externalLinkId;
             DisplayName = displayName;
+            FileId = fileId;
         }
     }
 }
