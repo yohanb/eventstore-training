@@ -65,8 +65,8 @@ namespace Registration.Application
             mainBus.Subscribe<ChangeName>(userSvc);
 
             //application wire up
-            app.CommandPublisher = mainBus;
-            userRm.Subscribe(app.DisplayUsers);
+            //app.CommandPublisher = mainBus;
+            //userRm.Subscribe(app.DisplayUsers);
             //start 
             userRm.Start();
 
