@@ -50,6 +50,8 @@ namespace Registration
             var database = new DataBase();
 
             var eventDispatch = new EventDispatcher(database);
+            var app = new RegistrationApp();
+            app.GenerateData(eventDispatch);
             
             
 
