@@ -21,7 +21,7 @@ namespace Registration
     {
         static void Main(string[] args)
         {
-            
+
             //Bootstrap
             var settings = ConnectionSettings.Create()
                 .SetDefaultUserCredentials(new UserCredentials("admin", "changeit"))
@@ -43,22 +43,22 @@ namespace Registration
 
             var roomSvc = new RoomSvc(repo);
             mainBus.Subscribe<AddRoom>(roomSvc);
-            
+
             var view = new ConsoleView();
             var controller = new Controller(view, mainBus);
 
             var database = new DataBase();
 
             var eventDispatch = new EventDispatcher(database);
-            
-            
 
-            roomRm.Subscribe( model => view.RoomSummaries = model);
+
+
+            // roomRm.Subscribe( model => view.HistorySummaries = model);
 
             roomRm.Start();
 
             controller.StartCommandLoop();
-            
+
             Console.WriteLine("press enter to exit");
             Console.ReadLine();
         }

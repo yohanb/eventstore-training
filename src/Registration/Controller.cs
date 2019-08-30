@@ -26,28 +26,43 @@ namespace Registration
                     Console.WriteLine("Disconnecting EventStore");
                     break;
                 }
-                if (cmd.Equals("list", StringComparison.OrdinalIgnoreCase))
+                if (cmd.Equals("list-links", StringComparison.OrdinalIgnoreCase))
                 {
-                    _view.ListRooms();
+                    _view.ListLinks();
+                    break;
+                }
+                if (cmd.Equals("list-history", StringComparison.OrdinalIgnoreCase))
+                {
+                    _view.ListHistory();
                     break;
                 }
                 //3 token commands
                 var tokens = cmd.Split(' ');
-                if (tokens.Length != 4)
+                if (tokens.Length != 2)
                 {
                     _view.ErrorMsg = "Unknown command or Invalid number of parameters.";
                     continue;
                 }
                 switch (tokens[0].ToUpperInvariant())
                 {
-                    case "ADD":
-                        var addRoom = new AddRoom(
-                            Guid.NewGuid(),
-                            tokens[1],
-                            tokens[2],
-                            tokens[3]);
-
-                        _mainBus.Publish(addRoom);
+                    case "Revoke":
+                        // TODO id is in tokens[1]
+                        // var addRoom = new AddRoom(
+                        //     Guid.NewGuid(),
+                        //     tokens[1],
+                        //     tokens[2],
+                        //     tokens[3]);
+                        //
+                        // _mainBus.Publish(addRoom);
+                        break;
+                    case "Approve":
+                        // var addRoom = new AddRoom(
+                        //     Guid.NewGuid(),
+                        //     tokens[1],
+                        //     tokens[2],
+                        //     tokens[3]);
+                        //
+                        // _mainBus.Publish(addRoom);
                         break;
                     default:
                         _view.ErrorMsg = "Unknown Command";
