@@ -10,7 +10,7 @@ using Registration.Blueprint.ReadModels;
 
 namespace Registration.Application
 {
-    public class RegistrationApp
+    public class RegistrationAppOld
     {
 
       

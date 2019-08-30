@@ -51,7 +51,8 @@ namespace Registration
 
             var eventDispatch = new EventDispatcher(database);
 
-
+            var app = new RegistrationApp();
+            app.GenerateData(eventDispatch);
 
             // roomRm.Subscribe( model => view.HistorySummaries = model);
 
