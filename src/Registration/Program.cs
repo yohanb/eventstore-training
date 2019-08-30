@@ -12,6 +12,8 @@ using Registration.Blueprint.Commands;
 using Registration.Blueprint.Events;
 using Registration.Components.CommandHandlers;
 using Registration.Components.EventReaders;
+using Registration.ExternalSharing.Events;
+using Registration.ExternalSharing.ReadModel;
 
 namespace Registration
 {
@@ -44,6 +46,10 @@ namespace Registration
             
             var view = new ConsoleView();
             var controller = new Controller(view, mainBus);
+
+            var database = new DataBase();
+
+            var eventDispatch = new EventDispatcher(database);
             
             
 
